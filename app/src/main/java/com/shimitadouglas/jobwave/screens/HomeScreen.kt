@@ -53,7 +53,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.shimitadouglas.jobwave.data_class.getBottomItemList
 import com.shimitadouglas.jobwave.data_class.homeListData
-import com.shimitadouglas.jobwave.routes.routes
+import com.shimitadouglas.jobwave.routes.Routes
 
 @Composable
 fun Home(navController: NavHostController) {
@@ -127,7 +127,7 @@ fun GridItemHome(image: Int, title: String, navController: NavHostController) {
 
             OutlinedButton(onClick = {
                 //navigate to the job page
-                navController.navigate(route = "${routes.SCREEN_JOB}/$titleQuery")
+                navController.navigate(route = "${Routes.SCREEN_JOB}/$titleQuery")
             }) {
                 Text(text = "View")
             }

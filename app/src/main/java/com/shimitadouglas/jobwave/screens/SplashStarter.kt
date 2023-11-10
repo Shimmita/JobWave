@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
-import com.shimitadouglas.jobwave.routes.routes
+import com.shimitadouglas.jobwave.routes.Routes
 import kotlinx.coroutines.delay
 
 @Composable
@@ -52,7 +52,7 @@ fun SplashStarter(navController: NavHostController) {
             //prevent stack back effect
             navController.popBackStack()
             //after delay na main screen
-            navController.navigate(route = routes.SCREEN_HOME)
+            navController.navigate(route = Routes.SCREEN_HOME)
         }
 
         //display contents of Splash

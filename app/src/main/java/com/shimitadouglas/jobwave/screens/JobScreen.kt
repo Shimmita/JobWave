@@ -2,6 +2,7 @@ package com.shimitadouglas.jobwave.screens
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -33,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
@@ -41,11 +43,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.shimitadouglas.jobwave.base_url.BaseUrl
+import com.shimitadouglas.jobwave.constant_objects.ObjectConstants
 import com.shimitadouglas.jobwave.data_class.DataJobItem
 import com.shimitadouglas.jobwave.data_class.DataJobResponse
 import com.shimitadouglas.jobwave.findicon.findIcon
-import com.shimitadouglas.jobwave.handlers.ProgressDialogLoading
 import com.shimitadouglas.jobwave.interface_service.GetAllPostInterface
+import com.shimitadouglas.jobwave.progressIndicators.ProgressDialogLoading
 import com.shimitadouglas.jobwave.routes.Routes
 import retrofit2.Call
 import retrofit2.Callback
@@ -55,8 +58,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 @Composable
 fun JobsScreen(navController: NavHostController, parameterSearch: String?) {
-
-
     //search display determinant
     var isSearchShown by rememberSaveable {
         mutableStateOf(false)
@@ -98,7 +99,7 @@ fun JobScreenBodyContent(
             mutableStateOf(emptyList<DataJobItem>())
         }
 
-        //init the retrofit buildr
+        //init the retrofit builder
         val retrofitBuilder = Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
             .baseUrl(BaseUrl.baseUrl).build().create(GetAllPostInterface::class.java)
 
@@ -159,10 +160,8 @@ fun WhatJobDisplayed(
         if (parameterSearch!!.contains("all")) {
             items(mainArrayData) { item: DataJobItem ->
                 DisplayDataItem(
-                    title = item.title,
-                    organisation = item.organisation,
-                    link = item.link,
-                    suggestIcon = findIcon(item.title), navController
+                    suggestIcon = findIcon(item.title),
+                    navController, item = item
                 )
             }
         }
@@ -172,11 +171,8 @@ fun WhatJobDisplayed(
             items(mainArrayData) { item: DataJobItem ->
                 if (item.title.lowercase().contains(parameterSearch)) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -188,11 +184,8 @@ fun WhatJobDisplayed(
             items(mainArrayData) { item: DataJobItem ->
                 if (item.title.lowercase().contains(parameterSearch)) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -208,11 +201,8 @@ fun WhatJobDisplayed(
                         .contains("generative") || item.title.lowercase().contains("intelligence")
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -228,11 +218,8 @@ fun WhatJobDisplayed(
                     )
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -251,11 +238,8 @@ fun WhatJobDisplayed(
                     )
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -274,11 +258,8 @@ fun WhatJobDisplayed(
                     )
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -301,11 +282,8 @@ fun WhatJobDisplayed(
                     )
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -320,11 +298,8 @@ fun WhatJobDisplayed(
                         .contains("dart", ignoreCase = true)
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation =item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -346,11 +321,8 @@ fun WhatJobDisplayed(
                     )
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation =item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -365,11 +337,8 @@ fun WhatJobDisplayed(
                         .contains("front", ignoreCase = true)
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -386,11 +355,8 @@ fun WhatJobDisplayed(
                         .contains("full", ignoreCase = true)
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -405,11 +371,8 @@ fun WhatJobDisplayed(
                         .contains("unreal", ignoreCase = true)
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation =item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -427,11 +390,8 @@ fun WhatJobDisplayed(
                         .contains("objective c") || item.title.lowercase().contains("xcode")
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -448,11 +408,8 @@ fun WhatJobDisplayed(
                         .contains("cupcake", ignoreCase = true)
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -473,11 +430,8 @@ fun WhatJobDisplayed(
                 ) {
                     if (!item.title.lowercase().contains(notString)) {
                         DisplayDataItem(
-                            title = item.title,
-                            organisation = item.organisation,
-                            link = item.link,
                             suggestIcon = findIcon(item.title),
-                            navController = navController
+                            navController = navController, item = item
                         )
                     }
                 }
@@ -491,11 +445,8 @@ fun WhatJobDisplayed(
             items(mainArrayData) { item: DataJobItem ->
                 if (item.title.lowercase().contains(parameterSearch)) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -512,11 +463,8 @@ fun WhatJobDisplayed(
                         .contains("firewall", ignoreCase = true)
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -533,11 +481,8 @@ fun WhatJobDisplayed(
                         .contains("next.js", ignoreCase = true)
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -549,11 +494,8 @@ fun WhatJobDisplayed(
             items(mainArrayData) { item: DataJobItem ->
                 if (item.title.lowercase().contains(parameterSearch)) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation =item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -565,11 +507,8 @@ fun WhatJobDisplayed(
             items(mainArrayData) { item: DataJobItem ->
                 if (item.title.lowercase().contains(parameterSearch)) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation =item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -584,11 +523,8 @@ fun WhatJobDisplayed(
             items(mainArrayData) { item: DataJobItem ->
                 if (item.title.lowercase().contains(parameterSearch)) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -602,11 +538,8 @@ fun WhatJobDisplayed(
                         .contains("react-native") || item.title.lowercase().contains("react native")
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -618,11 +551,8 @@ fun WhatJobDisplayed(
             items(mainArrayData) { item: DataJobItem ->
                 if (item.title.lowercase().contains(parameterSearch)) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation =item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -641,11 +571,8 @@ fun WhatJobDisplayed(
                 ) {
 
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
 
                 }
@@ -661,11 +588,8 @@ fun WhatJobDisplayed(
                         .contains("node.js", ignoreCase = true)
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -680,11 +604,8 @@ fun WhatJobDisplayed(
                         .contains("kuber", ignoreCase = true)
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -698,11 +619,8 @@ fun WhatJobDisplayed(
                         .contains("ktor", ignoreCase = true)
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -717,11 +635,8 @@ fun WhatJobDisplayed(
                         .contains("google go", ignoreCase = true)
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -736,11 +651,8 @@ fun WhatJobDisplayed(
                         .contains("python", ignoreCase = true)
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController, item = item
                     )
                 }
 
@@ -755,11 +667,9 @@ fun WhatJobDisplayed(
                         .contains("ubuntu", ignoreCase = true)
                 ) {
                     DisplayDataItem(
-                        title = item.title,
-                        organisation = item.organisation,
-                        link = item.link,
                         suggestIcon = findIcon(item.title),
-                        navController = navController
+                        navController = navController,
+                        item = item
                     )
                 }
 
@@ -816,11 +726,9 @@ fun ComposableSearchBar(mainArrayData: List<DataJobItem>) {
 
 @Composable
 fun DisplayDataItem(
-    title: String,
-    organisation: String,
-    link: String,
     suggestIcon: Int,
-    navController: NavHostController
+    navController: NavHostController,
+    item: DataJobItem
 ) {
     Card(elevation = CardDefaults.cardElevation(5.dp), modifier = Modifier.padding(8.dp)) {
         Row(
@@ -836,12 +744,14 @@ fun DisplayDataItem(
                 painter = painterResource(id = suggestIcon),
                 contentDescription = "icon",
                 modifier = Modifier
-                    .size(80.dp)
+                    .size(100.dp)
                     .clip(CircleShape)
-                    .weight(0.26f),
+                    .weight(0.26f)
+                    .border(width = 20.dp, shape = CircleShape, color = Color.White),
                 contentScale = ContentScale.Crop,
-            )
-            Spacer(modifier = Modifier.width(10.dp))
+
+                )
+            Spacer(modifier = Modifier.width(8.dp))
 
             //column for title and description
             Column(
@@ -851,7 +761,7 @@ fun DisplayDataItem(
             ) {
                 //title text
                 Text(
-                    text = title,
+                    text = item.title,
                     fontWeight = FontWeight.Bold,
                     fontStyle = MaterialTheme.typography.titleSmall.fontStyle, maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
@@ -859,7 +769,7 @@ fun DisplayDataItem(
                 Spacer(modifier = Modifier.height(5.dp))
                 //organisation Text
                 Text(
-                    text = organisation.uppercase(),
+                    text = item.organisation.uppercase(),
                     fontStyle = FontStyle.Italic,
                     fontWeight = FontWeight.Light,
                     maxLines = 1,
@@ -869,8 +779,8 @@ fun DisplayDataItem(
                 //button apply
                 OutlinedButton(
                     onClick = {
-                        //navigate to the job application screen
-                        funNavigateJobApplicationScreen(title, navController)
+                        //navigate to the job application screen with item object passed as backStack Entry
+                        funNavigateJobApplicationScreen(item, navController)
                     }, modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Apply")
@@ -883,9 +793,14 @@ fun DisplayDataItem(
 }
 
 //triggers navigation to the job application window
-fun funNavigateJobApplicationScreen(link: String, navController: NavHostController) {
-    //nav controller for screen navigation to the jobApplication screen based on the link
-    navController.navigate(route = "${Routes.SCREEN_JOB_APPLICATION}/$link")
+fun funNavigateJobApplicationScreen(item: DataJobItem, navController: NavHostController) {
+    //putting the job parcel into the back stack entry
+    navController.currentBackStackEntry?.savedStateHandle?.set(
+        key = ObjectConstants.KEY_ITEM_OBJECT,
+        value = item
+    )
+    //begin route navigation
+    navController.navigate(route = Routes.SCREEN_JOB_APPLICATION)
 }
 
 

@@ -18,6 +18,7 @@ fun homeListData(): MutableList<HomeGridItem> {
         HomeGridItem(image = R.drawable.reactnative, title = "ReactNative Developer"),
         HomeGridItem(image = R.drawable.flutter, title = "Flutter Developer"),
         HomeGridItem(image = R.drawable.nextjs, title = "NextJs Developer"),
+        HomeGridItem(image = R.drawable.network, title = "Network Engineer"),
         HomeGridItem(image = R.drawable.laravel, title = "Laravel Developer"),
         HomeGridItem(image = R.drawable.django, title = "Django Developer"),
         HomeGridItem(image = R.drawable.backend, title = "Backend Developer"),

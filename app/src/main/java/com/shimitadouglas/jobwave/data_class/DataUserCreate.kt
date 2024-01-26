@@ -9,4 +9,9 @@ data class DataUserCreate(
     val password: String,
 )
 
+data class DataUserLogin(
+    val email: String,
+    val password: String,
+)
+
 

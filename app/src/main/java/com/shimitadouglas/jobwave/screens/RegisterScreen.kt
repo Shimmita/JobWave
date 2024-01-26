@@ -89,6 +89,7 @@ fun RegisterScreen(navController: NavHostController) {
 
     //form variables
     val context = LocalContext.current
+    //scope launcher for coroutine
     val scope = rememberCoroutineScope()
 
     //holds boolean true if all text-fields are filled

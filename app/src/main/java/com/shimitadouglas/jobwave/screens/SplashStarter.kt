@@ -42,9 +42,6 @@ fun SplashStarter(navController: NavHostController) {
             label = "effectTitle"
         )
 
-
-
-
         LaunchedEffect(key1 = true) {
             isNavigateMain = true
             delay(4000)

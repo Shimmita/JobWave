@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">JobWave</string>
+    <string name="settings">settings</string>
+    <string name="notification">notification</string>
+    <string name="home">home</string>
+    <string name="login">login</string>
 </resources>

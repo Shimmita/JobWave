@@ -48,7 +48,7 @@ import com.shimitadouglas.jobwave.data_class.DataJobItem
 import com.shimitadouglas.jobwave.data_class.DataJobResponse
 import com.shimitadouglas.jobwave.findicon.findIcon
 import com.shimitadouglas.jobwave.interface_service.GetAllPostInterface
-import com.shimitadouglas.jobwave.progressIndicators.ProgressDialogLoading
+import com.shimitadouglas.jobwave.progressIndicators.LoadingA
 import com.shimitadouglas.jobwave.routes.Routes
 import retrofit2.Call
 import retrofit2.Callback
@@ -101,7 +101,7 @@ fun JobScreenBodyContent(
 
         //init the retrofit builder
         val retrofitBuilder = Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(BaseUrl.baseUrl).build().create(GetAllPostInterface::class.java)
+            .baseUrl(BaseUrl.BASE_URL).build().create(GetAllPostInterface::class.java)
 
         val retrofitData = retrofitBuilder.getAllJobs()
 
@@ -141,7 +141,7 @@ fun JobScreenBodyContent(
 
         } else {
             //display progress
-            ProgressDialogLoading()
+            LoadingA()
         }
 
     }

@@ -8,7 +8,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,6 +23,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.BottomSheetDefaults
@@ -43,6 +43,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -61,6 +62,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.shimitadouglas.jobwave.R
 import com.shimitadouglas.jobwave.contact_dev.ContactDev
 import com.shimitadouglas.jobwave.data_class.getBottomItemList
 import com.shimitadouglas.jobwave.data_class.homeListData
@@ -147,6 +149,7 @@ fun GridItemHome(image: Int, title: String, navController: NavHostController) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScaffoldParentHome(navController: NavHostController, context: Context) {
     var isEffect by rememberSaveable {
@@ -177,6 +180,7 @@ fun ScaffoldParentHome(navController: NavHostController, context: Context) {
     }
 
 
+
     Scaffold(modifier = Modifier.alpha(alphaValue),
         floatingActionButton = {
 
@@ -188,38 +192,70 @@ fun ScaffoldParentHome(navController: NavHostController, context: Context) {
             BottomNavigationComposable(context, navController)
         }
     ) {
-        it
-        HomeContent(navController, it)
+
+        HomeContent(navController = navController, paddingValues = it)
+        //NavHostMain(navController = navController)
 
     }
 }
 
 @Composable
-fun BottomNavigationComposable(context: Context, navController: NavHostController) {
-    NavigationBar {
+fun BottomNavigationComposable(
+    context: Context,
+    navController: NavHostController,
+) {
+    NavigationBar(
+        modifier = Modifier
+            .clip(shape = RoundedCornerShape(30.dp))
+            .padding(horizontal = 5.dp, vertical = 5.dp)
+    ) {
+
+        //holds the current index value of bottom nav
+        var selectedIndex by rememberSaveable {
+            mutableIntStateOf(0)
+        }
+        //holds true or false the item is clicked
+        var selected by rememberSaveable {
+            mutableStateOf(false)
+        }
+        //current screen value equals the selectedIndex
         getBottomItemList().forEachIndexed { index, dataBottom ->
-            NavigationBarItem(selected = false, onClick = { /*TODO*/ }, icon = {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
+            selected = selectedIndex == index
+
+            NavigationBarItem(
+                selected = selected,
+                onClick = {
+                    selectedIndex = index
+
+                    when (dataBottom.title.lowercase()) {
+                        context.getString(R.string.home) ->
+                            //nav home
+                            navController.navigate(route = Routes.SCREEN_HOME)
+
+                        context.getString(R.string.notification) ->
+                            //nav notification
+                            return@NavigationBarItem
+
+                        context.getString(R.string.settings) ->
+                            //nav setting
+                            return@NavigationBarItem
+
+                        context.getString(R.string.login) ->
+                            //nav login
+                            navController.navigate(route = Routes.SCREEN_LOGIN)
+                    }
+
+                },
+                icon = {
                     Icon(
-                        imageVector = dataBottom.selectedImage,
+                        imageVector = if (selected) dataBottom.selectedImage else dataBottom.unselectedImage,
                         contentDescription = dataBottom.title,
-                        modifier = Modifier.clickable {
-                            //if home refresh the home screen composable else show pending implementation
-                            if (dataBottom.title.lowercase().contains("home")) {
-                                navController.popBackStack()
-                                navController.navigate(Routes.SCREEN_HOME)
-                            } else if (dataBottom.title.lowercase().contains("account")) {
-                                //navigate  to the login screen
-                                navController.navigate(route = Routes.SCREEN_LOGIN)
-                            }
-                        }
-                    )
+
+                        )
+                }, label = {
                     Text(text = dataBottom.title)
-                }
-            })
+                }, alwaysShowLabel = selected
+            )
         }
     }
 }

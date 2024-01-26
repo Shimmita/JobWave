@@ -55,6 +55,7 @@ dependencies {
     implementation (libs.accompanist.permissions)
     implementation(libs.dexter)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.logging.interceptor)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.core.ktx)

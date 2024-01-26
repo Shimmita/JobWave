@@ -2,10 +2,13 @@ package com.shimitadouglas.jobwave.progressIndicators
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ProgressDialogLoading() {
+fun LoadingA() {
 
     var isProgressing by rememberSaveable {
         mutableStateOf(false)
@@ -34,11 +37,15 @@ fun ProgressDialogLoading() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+
             CircularProgressIndicator(
                 modifier = Modifier.width(70.dp),
                 color = MaterialTheme.colorScheme.surfaceVariant,
                 trackColor = MaterialTheme.colorScheme.secondary,
             )
+
+            Spacer(modifier = Modifier.height(50.dp))
+            Text(text = "Collecting")
 
         }
     }
